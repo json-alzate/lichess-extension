@@ -1,0 +1,31 @@
+{
+    "manifest_version": 2,
+    "name": "My Chess Puzzle Extension",
+    "description": "Adds a progress bar and timer to the chess puzzle page on lichess.org",
+    "version": "1.0",
+    "permissions": [
+        "tabs",
+        "https://lichess.org/training/*"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://lichess.org/training/*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "64": "icon.png"
+    }
+}
