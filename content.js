@@ -1,7 +1,17 @@
+// Tiempos
+/*
+    < 1 minuto: green
+    > 3 minutos: blue
+    > 5 minutos: Yellow
+    > 7 minutos: orange
+    > 10 minutos: red
+*/
+
+
 let intervalId;
 let minutes = 0;
 let seconds = 0;
-let color = "green";
+let color = "#22CFCF";
 
 
 // Escuchar por cambios en el DOM
@@ -15,6 +25,7 @@ function checkForPause(mutationsList) {
             for (let node of mutation.addedNodes) {
                 if (node.classList && node.classList.contains('puzzle__feedback') && node.classList.contains('after')) {
                     clearInterval(intervalId);
+                    saveTime();
                     resetTimer();
                     break;
                 }
@@ -49,11 +60,25 @@ function updateTimer() {
         seconds++;
     }
 
-    if (minutes >= 5) {
-        color = "red";
+    // Change the color of the timer based on the time
+    if (minutes >= 10) {
+        color = "#FF6384";
+    } else if (minutes >= 5) {
+        color = "#FF9020";
     } else if (minutes >= 3) {
-        color = "orange";
+        color = "#FFC234";
+    } else if (minutes >= 1) {
+        color = "#36A2EB";
+    } else {
+        color = "#22CFCF";
     }
+
+
+    // if (minutes >= 5) {
+    //     color = "red";
+    // } else if (minutes >= 3) {
+    //     color = "orange";
+    // }
 
     // Update the timer display with the current time
     const timerDisplay = document.querySelector(".timer");
@@ -75,4 +100,15 @@ timerDisplay.classList.add("timer");
 document.querySelector(".puzzle__tools").appendChild(timerDisplay);
 
 startTimer();
+
+// Storage
+function saveTime() {
+    const puzzleId = document.querySelector(".infos.puzzle a").innerText;
+    const puzzleTime = document.querySelector(".timer").innerText;
+    const puzzleData = { type: 'puzzle', puzzleId, puzzleTime, minutes, seconds, color };
+    // Guarda en el almacenamiento local de chrome
+    chrome.storage.local.set({ [puzzleId]: puzzleData }, () => {
+        console.log("Saved puzzle data");
+    });
+}
 

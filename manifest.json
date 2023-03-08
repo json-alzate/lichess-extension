@@ -3,9 +3,11 @@
     "name": "ChessColate",
     "description": "Adds a progress bar and timer to the chess puzzle page on lichess.org",
     "version": "1.0",
+    "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net; object-src 'self'",
     "permissions": [
         "tabs",
-        "https://lichess.org/training/*"
+        "https://lichess.org/training/*",
+        "storage"
     ],
     "background": {
         "scripts": [
