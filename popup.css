@@ -12,3 +12,8 @@ body {
     text-align: center;
     font-size: 8px;
 }
+
+#warning-info {
+    text-align: center;
+    font-size: 7px;
+}

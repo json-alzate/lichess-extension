@@ -1,10 +1,9 @@
 // Tiempos
 /*
-    < 1 minuto: green
-    > 3 minutos: blue
-    > 5 minutos: Yellow
-    > 7 minutos: orange
-    > 10 minutos: red
+    < 3 minuto: green === #629924
+    > 3 minutos: blue === #3692e7
+    > 5 minutos: orange === #bf811d
+    > 10 minutos: red === #c33
 */
 
 if (window.location.href.endsWith(document.querySelector(".infos.puzzle a").getAttribute("href"))) {
@@ -20,7 +19,7 @@ if (window.location.href.endsWith(document.querySelector(".infos.puzzle a").getA
     let intervalId;
     let minutes = 0;
     let seconds = 0;
-    let color = "#22CFCF";
+    let color = "#2dd36f";
 
 
     // Escuchar por cambios en el DOM
@@ -71,23 +70,14 @@ if (window.location.href.endsWith(document.querySelector(".infos.puzzle a").getA
 
         // Change the color of the timer based on the time
         if (minutes >= 10) {
-            color = "#FF6384";
+            color = "#c33";
         } else if (minutes >= 5) {
-            color = "#FF9020";
+            color = "#bf811d";
         } else if (minutes >= 3) {
-            color = "#FFC234";
-        } else if (minutes >= 1) {
-            color = "#36A2EB";
+            color = "#3692e7";
         } else {
-            color = "#22CFCF";
+            color = "#629924";
         }
-
-
-        // if (minutes >= 5) {
-        //     color = "red";
-        // } else if (minutes >= 3) {
-        //     color = "orange";
-        // }
 
         // Update the timer display with the current time
         const timerDisplay = document.querySelector(".timer");
@@ -106,6 +96,8 @@ if (window.location.href.endsWith(document.querySelector(".infos.puzzle a").getA
 
     const timerDisplay = document.createElement("div");
     timerDisplay.classList.add("timer");
+    timerDisplay.style.fontSize = "18px";
+    timerDisplay.style.padding = "2px";
     document.querySelector(".puzzle__tools").appendChild(timerDisplay);
 
     startTimer();
@@ -114,7 +106,15 @@ if (window.location.href.endsWith(document.querySelector(".infos.puzzle a").getA
     function saveTime() {
         const puzzleId = document.querySelector(".infos.puzzle a").innerText;
         const puzzleTime = document.querySelector(".timer").innerText;
-        const puzzleData = { type: 'puzzle', puzzleId, puzzleTime, minutes, seconds, color };
+        const puzzleData = {
+            type: 'puzzle',
+            puzzleId,
+            puzzleTime,
+            minutes,
+            seconds,
+            color,
+            date: new Date().getTime()
+        };
         // Guarda en el almacenamiento local de chrome
         chrome.storage.local.set({ [puzzleId]: puzzleData }, () => {
             console.log("Saved puzzle data");

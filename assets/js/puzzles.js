@@ -1,21 +1,19 @@
-// funcion para recuperar los puzzles almacenados en el local storage de chrome
+// función para recuperar los puzzles almacenados en el local storage de chrome
 function getSavedPuzzles() {
     chrome.storage.local.get(null, (data) => {
-        console.log("Retrieved saved puzzles");
         console.log(data);
         const savedPuzzles = Object.values(data);
         let countGreen = 0;
         let countBlue = 0;
-        let countYellow = 0;
         let countOrange = 0;
         let countRed = 0;
         savedPuzzles.forEach((puzzle) => {
-            const puzzleId = puzzle.puzzleId;
-            const puzzleTime = puzzle.puzzleTime;
+            // const puzzleId = puzzle.puzzleId;
+            // const puzzleTime = puzzle.puzzleTime;
             const puzzleMinutes = puzzle.minutes;
-            const puzzleSeconds = puzzle.seconds;
-            const color = puzzle.color;
-            const puzzleData = { puzzleId, puzzleTime, puzzleMinutes, puzzleSeconds, color };
+            // const puzzleSeconds = puzzle.seconds;
+            // const color = puzzle.color;
+            // const puzzleData = { puzzleId, puzzleTime, puzzleMinutes, puzzleSeconds, color };
 
             // Sum the number of puzzles by minutes
             if (puzzleMinutes >= 10) {
@@ -23,43 +21,32 @@ function getSavedPuzzles() {
             } else if (puzzleMinutes >= 5) {
                 countOrange++;
             } else if (puzzleMinutes >= 3) {
-                countYellow++;
-            } else if (puzzleMinutes >= 1) {
                 countBlue++;
             } else {
                 countGreen++;
             }
 
         });
-        makeDoughnutChart(countGreen, countBlue, countYellow, countOrange, countRed);
+        makeDoughnutChart(countGreen, countBlue, countOrange, countRed);
 
     });
 }
 
 // make doughnut chart
-function makeDoughnutChart(countGreen, countBlue, countYellow, countOrange, countRed) {
+function makeDoughnutChart(countGreen, countBlue, countOrange, countRed) {
     const ctx = document.getElementById('doughnut-chart').getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: [],
+            labels: ["< 3 min", "3 - 5 min", "5 - 10 min", "> 10 min"],
             datasets: [{
-                data: [countGreen, countBlue, countYellow, countOrange, countRed],
+                data: [countGreen, countBlue, countOrange, countRed],
                 backgroundColor: [
-                    'rgba(34, 207, 207, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 205, 52, 0.2)',
-                    'rgba(255, 144, 32, 0.2)',
-                    'rgba(255, 99, 132, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(34, 207, 207, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 205, 52, 1)',
-                    'rgba(255, 144, 32, 1)',
-                    'rgba(255, 99, 132, 1)'
-                ],
-                borderWidth: 1
+                    'rgba(98, 153, 36)',
+                    'rgba(54, 146, 231)',
+                    'rgba(191, 129, 29)',
+                    'rgba(204, 51, 51)'
+                ]
             }]
         }
     });
