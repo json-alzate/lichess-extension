@@ -1,19 +1,17 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "ChessColate",
     "description": "Add a timer to the chess puzzle page on lichess.org",
     "version": "1.0.0",
-    "content_security_policy": "script-src 'self' 'unsafe-eval' https://cdn.jsdelivr.net; object-src 'self'",
-    "permissions": [
-        "tabs",
-        "https://lichess.org/training/*",
-        "storage"
+    "host_permissions": [
+        "https://lichess.org/training/*"
     ],
     "background": {
-        "scripts": [
-            "background.js"
-        ]
+        "service_worker": "background.js"
     },
+    "permissions": [
+        "storage"
+    ],
     "content_scripts": [
         {
             "matches": [
@@ -24,10 +22,10 @@
             ]
         }
     ],
-    "browser_action": {
-        "default_popup": "popup.html"
-    },
-    "icons": {
-        "64": "icon.png"
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "64": "icon.png"
+        }
     }
 }
